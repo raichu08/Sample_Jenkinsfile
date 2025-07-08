@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('check user') {
+            steps {
+                    sh 'whoami'
+            }
+        }
+        stage('create file') {
+            steps{
+                sh 'touch abc.txt'
+                sh 'echo "how are you" >>abc.txt'
+            }
+        }
+        stage ('print the content') {
+            steps {
+                sh 'cat abc.txt'
+            }
+        }
+    }
+}
