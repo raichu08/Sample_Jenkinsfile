@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label "test"}  // you need to add your node label name
 
     stages {
         stage('check user') {
