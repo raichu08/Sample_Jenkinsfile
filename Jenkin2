@@ -1,0 +1,8 @@
+pipeline {
+agent { label "node name"} //run on given agent
+
+stages {
+stage ('stage name')
+
+}
+}
