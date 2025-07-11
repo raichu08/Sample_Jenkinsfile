@@ -1,5 +1,5 @@
 pipeline {
-    agent { label "test"}
+    agent { label "test"}  // change according to your slave label
     stages {
         stage('pull the code') {
             steps {
