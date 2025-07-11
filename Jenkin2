@@ -1,8 +1,20 @@
 pipeline {
-agent { label "node name"} //run on given agent
-
-stages {
-stage ('stage name')
-
-}
+    agent { label "test"}
+    stages {
+        stage('pull the code') {
+            steps {
+                git url: 'https://github.com/raichu08/sample-web-page.git', branch: 'main'
+            }
+        }
+        stage('build docker image') {
+            steps {
+                sh 'sudo docker build . -t test_image'
+            }
+        }
+        stage('run docker image') {
+            steps {
+                sh 'sudo docker run -d -p 80:3000 --name my_test test_image'
+            }
+        }
+    }
 }
