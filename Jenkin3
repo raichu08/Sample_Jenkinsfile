@@ -1,0 +1,35 @@
+pipeline {
+    agent {label "test"}
+
+    environment {
+        GIT_REPO = 'https://github.com/raichu08/sample_webpage_html.git'
+        TARGET_DIR = '/home/ubuntu/test/develop_build'
+    }
+
+    stages {
+        stage('Pull from develop branch') {
+            steps {
+                // Clean workspace first
+                deleteDir()
+
+                // Pull code from develop branch
+                git branch: 'develop', url: "${GIT_REPO}"
+            }
+        }
+
+        stage('Deploy to folder') {
+            steps {
+                sh '''
+                    # Create target directory if missing
+                    mkdir -p ${TARGET_DIR}
+
+                    # Clear old files
+                    rm -rf ${TARGET_DIR}/*
+
+                    # Copy new files
+                    cp -r * ${TARGET_DIR}/
+                '''
+            }
+        }
+    }
+}
