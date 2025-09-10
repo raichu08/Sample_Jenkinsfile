@@ -1,0 +1,37 @@
+pipeline {
+    agent none   // don’t run on master, run per stage
+    stages {
+        stage('Build') {
+            agent { label 'build-node' }
+            steps {
+                echo "Building the application..."
+                sh 'echo build step here'
+            }
+        }
+
+        stage('Test') {
+            agent { label 'test-node' }
+            steps {
+                echo "Running tests..."
+                sh 'echo run test cases here'
+            }
+        }
+
+        stage('Deploy to Prod') {
+            agent { label 'prod-node' }
+            when {
+                beforeAgent true
+                expression { currentBuild.currentResult == "SUCCESS" }
+            }
+            steps {
+                echo "Deploying to production..."
+                sh 'echo deploy step here'
+            }
+        }
+    }
+    post {
+        always {
+            echo "Pipeline finished with status: ${currentBuild.currentResult}"
+        }
+    }
+}
